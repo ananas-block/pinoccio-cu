@@ -8,7 +8,39 @@ use solana_sdk::{
     signature::Signer,
     transaction::Transaction,
 };
-use test_program::entrypoint::{InstructionType, NOOP_PUBKEY};
+use test_program::{InstructionType, NOOP_PUBKEY};
+
+#[tokio::test]
+async fn test_entrypoint() {
+    let program_id = Pubkey::new_unique();
+    let context = ProgramTest::new("test_program", program_id, None);
+    let (mut banks_client, payer, recent_blockhash) = context.start().await;
+
+    let (pda_signer, bump) = Pubkey::try_find_program_address(&[&[1]], &program_id).unwrap();
+    let pubkey1 = Pubkey::create_program_address(&[&[1], &[255]], &program_id).unwrap();
+    assert_eq!(pda_signer, pubkey1);
+    println!("{:?}", bump);
+
+    let num_accounts = 20;
+    let accounts: Vec<AccountMeta> = (0..num_accounts)
+        .map(|_| AccountMeta::new(Pubkey::new_unique(), false))
+        .collect();
+
+    // entry point with 20 accounts
+    {
+        println!("entry point with 20 accounts");
+        let instruction = Instruction {
+            program_id: program_id,
+            accounts: vec![vec![AccountMeta::new(payer.pubkey(), true)], accounts].concat(),
+            data: vec![vec![InstructionType::Entrypoint as u8]].concat(),
+        };
+        let mut transaction = Transaction::new_with_payer(&[instruction], Some(&payer.pubkey()));
+        transaction.sign(&[&payer], recent_blockhash);
+        let result = banks_client.process_transaction(transaction).await;
+        println!("{:?}", result);
+        assert!(result.is_ok());
+    }
+}
 
 // Total pinoccio: 8,213 CU
 // Total solana-program: 9,846 CU
@@ -36,6 +68,17 @@ async fn test_cpis() {
                 AccountMeta::new(payer.pubkey(), true),
                 AccountMeta::new_readonly(Pubkey::new_from_array(NOOP_PUBKEY), false),
                 AccountMeta::new(pda_signer, false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
             ],
             data: vec![vec![InstructionType::CpiBench as u8], data].concat(),
         };
@@ -56,6 +99,17 @@ async fn test_cpis() {
                 AccountMeta::new(payer.pubkey(), true),
                 AccountMeta::new_readonly(Pubkey::new_from_array(NOOP_PUBKEY), false),
                 AccountMeta::new(pda_signer, false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
+                AccountMeta::new(Pubkey::new_unique(), false),
             ],
             data: vec![vec![InstructionType::CpiBench as u8], data].concat(),
         };

@@ -17,12 +17,14 @@ logging = []
 test-sbf = []
 solana-program = []
 pinocchio = []
+nostd = []
 
 [dependencies]
 pinocchio = { workspace = true }
 pinocchio-log = { workspace = true }
 thiserror = "2.0.11"
 solana-program = "~1.18"
+solana-nostd-entrypoint = "0.6.2"
 
 [dev-dependencies]
 solana-program-test = "~1.18"

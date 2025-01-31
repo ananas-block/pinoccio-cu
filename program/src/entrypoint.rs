@@ -1,4 +1,5 @@
-use crate::{cpi::cpi_bench, errors};
+#![cfg(any(feature = "solana-program", feature = "pinocchio"))]
+use crate::{errors, InstructionType};
 
 #[cfg(feature = "solana-program")]
 use solana_program::{
@@ -25,6 +26,7 @@ pub fn process_instruction(
     accounts: &[AccountInfo],
     instruction_data: &[u8],
 ) -> ProgramResult {
+    sol_log_compute_units();
     let discriminator = InstructionType::try_from(instruction_data[0]).unwrap();
     match discriminator {
         InstructionType::BenchCopyVsTryInto8 => bench_copy_vs_try_into::<8>(&instruction_data[1..]),
@@ -36,36 +38,11 @@ pub fn process_instruction(
         InstructionType::ProgramAccountCheck => {
             crate::account_check::bench_program_account_check(accounts)?
         }
-        InstructionType::CpiBench => cpi_bench(accounts, &instruction_data[1..]),
+        InstructionType::CpiBench => crate::cpi::cpi_bench(accounts, &instruction_data[1..]),
+        InstructionType::Entrypoint => Ok(()),
         _ => panic!("Invalid discriminator"),
     }?;
     Ok(())
-}
-
-#[repr(u8)]
-pub enum InstructionType {
-    Noop = 0,
-    BenchCopyVsTryInto8 = 1,
-    BenchCopyVsTryInto128 = 2,
-    BenchU64FromBytes = 3,
-    ProgramAccountCheck = 4,
-    CpiBench = 5,
-}
-
-impl TryFrom<u8> for InstructionType {
-    type Error = crate::errors::Error;
-
-    fn try_from(discriminator: u8) -> std::result::Result<Self, Self::Error> {
-        match discriminator {
-            0 => Ok(InstructionType::Noop),
-            1 => Ok(InstructionType::BenchCopyVsTryInto8),
-            2 => Ok(InstructionType::BenchCopyVsTryInto128),
-            3 => Ok(InstructionType::BenchU64FromBytes),
-            4 => Ok(InstructionType::ProgramAccountCheck),
-            5 => Ok(InstructionType::CpiBench),
-            _ => Err(errors::Error::InvalidInstruction.into()),
-        }
-    }
 }
 
 // from le bytes 2 CU, from be bytes 4 CU
@@ -110,9 +87,3 @@ fn bench_copy_vs_try_into<const T: usize>(instruction_data: &[u8]) -> ProgramRes
     }
     Ok(())
 }
-
-// noopb9bkMVfRPU8AsbpTUg8AQkHtKwMYZiFUjNRtMmV
-pub const NOOP_PUBKEY: [u8; 32] = [
-    11, 188, 15, 192, 187, 71, 202, 47, 116, 196, 17, 46, 148, 171, 19, 207, 163, 198, 52, 229,
-    220, 23, 234, 203, 3, 205, 26, 35, 205, 126, 120, 124,
-];

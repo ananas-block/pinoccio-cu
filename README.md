@@ -6,9 +6,18 @@ Switch between pinoccio and solana program by changing the default feature in pr
 
 `cargo test-sbf`
 
-## Bench Cpi Pinoccio
+## Entrypoint for 20 accounts
 
-#### bench cpis 8 bytes
+| library                     | CU usage |
+|-----------------------------|----------|
+| solana-nostd-entrypoint     |  306     |
+| pinoccio                    |  427     |
+| solana-program              |  3,585   |
+
+
+## Pinoccio Cpi
+
+#### noop cpis 8 bytes
 
 | name                        | CU usage |
 |-----------------------------|----------|
@@ -18,7 +27,7 @@ Switch between pinoccio and solana program by changing the default feature in pr
 | Invoke signed checked false | 1,076    |
 | Total                       | 8,165    |
 
-#### bench cpis 3240 bytes
+#### noop cpis 3240 bytes
 
 | name                        | CU usage |
 |-----------------------------|----------|
@@ -28,9 +37,9 @@ Switch between pinoccio and solana program by changing the default feature in pr
 | Invoke signed checked false | 1,088    |
 | Total                       | 8,213    |
 
-## Bench Cpi Solana Program
+## Solana Program Cpi
 
-#### bench cpis  8 bytes
+#### noop cpis  8 bytes
 
 | name                        | CU usage |
 |-----------------------------|----------|
@@ -40,7 +49,7 @@ Switch between pinoccio and solana program by changing the default feature in pr
 | Invoke signed uncheck false | 1,333    |
 | Total                       | 9,825    |
 
-#### bench cpis 3240 bytes
+#### noop cpis 3240 bytes
 
 | name                        | CU usage |
 |-----------------------------|----------|

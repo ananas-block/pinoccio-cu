@@ -2,7 +2,7 @@ use pinocchio::{
     account_info::AccountInfo, log::sol_log_compute_units, msg, pubkey::Pubkey, ProgramResult,
 };
 
-use crate::{entrypoint::NOOP_PUBKEY, errors};
+use crate::{errors, NOOP_PUBKEY};
 
 // Is program account 19 CU
 // If check program account 19 CU

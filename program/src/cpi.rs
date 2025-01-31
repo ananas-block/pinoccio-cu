@@ -17,7 +17,7 @@ use solana_program::{
     pubkey::Pubkey,
 };
 
-use crate::entrypoint::NOOP_PUBKEY;
+use crate::NOOP_PUBKEY;
 
 #[cfg(feature = "pinocchio")]
 fn get_pinoccio_seeds<'a>() -> [Seed<'a>; 2] {
