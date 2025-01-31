@@ -12,20 +12,21 @@ Switch between pinoccio and solana program by changing the default feature in pr
 
 | name                        | CU usage |
 |-----------------------------|----------|
-| Invoke checked true         | 1115     |
-| Invoke checked false        | 1571     |
-| Invoke signed checked true  | 1677     |
-| Invoke signed checked false | 1629     |
+| Invoke checked true         | 1,118    |
+| Invoke checked false        | 1,061    |
+| Invoke signed checked true  | 1,134    |
+| Invoke signed checked false | 1,076    |
+| Total                       | 8,165    |
 
-#### bench cpis 1024 bytes
+#### bench cpis 3240 bytes
 
 | name                        | CU usage |
 |-----------------------------|----------|
-| Invoke checked true         | 1119     |
-| Invoke checked false        | 1575     |
-| Invoke signed checked true  | 1681     |
-| Invoke signed checked false | 1633     |
-
+| Invoke checked true         | 1,130    |
+| Invoke checked false        | 1,073    |
+| Invoke signed checked true  | 1,146    |
+| Invoke signed checked false | 1,088    |
+| Total                       | 8,213    |
 
 ## Bench Cpi Solana Program
 
@@ -33,16 +34,18 @@ Switch between pinoccio and solana program by changing the default feature in pr
 
 | name                        | CU usage |
 |-----------------------------|----------|
-| Invoke checked        true  | 1416     |
-| Invoke unchecked      false | 1321     |
-| Invoke signed checked true  | 1420     |
-| Invoke signed uncheck false | 1332     |
+| Invoke checked        true  | 1,416    |
+| Invoke unchecked      false | 1,321    |
+| Invoke signed checked true  | 1,418    |
+| Invoke signed uncheck false | 1,333    |
+| Total                       | 9,825    |
 
-#### bench cpis 1024 bytes
+#### bench cpis 3240 bytes
 
 | name                        | CU usage |
 |-----------------------------|----------|
-| Invoke checked        true  | 1155     |
-| Invoke unchecked      false | 1323     |
-| Invoke signed checked true  | 1422     |
-| Invoke signed uncheck false | 1334     |
+| Invoke checked        true  | 1,430    |
+| Invoke unchecked      false | 1,335    |
+| Invoke signed checked true  | 1,432    |
+| Invoke signed uncheck false | 1,347    |
+| Total                       | 9,881    |

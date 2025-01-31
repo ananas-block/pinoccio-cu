@@ -1,4 +1,4 @@
-use crate::{account_check::bench_program_account_check, cpi::cpi_bench, errors};
+use crate::{cpi::cpi_bench, errors};
 
 #[cfg(feature = "solana-program")]
 use solana_program::{
@@ -27,14 +27,15 @@ pub fn process_instruction(
 ) -> ProgramResult {
     let discriminator = InstructionType::try_from(instruction_data[0]).unwrap();
     match discriminator {
-        #[cfg(feature = "pinocchio")]
         InstructionType::BenchCopyVsTryInto8 => bench_copy_vs_try_into::<8>(&instruction_data[1..]),
         InstructionType::BenchCopyVsTryInto128 => {
             bench_copy_vs_try_into::<128>(&instruction_data[1..])
         }
         InstructionType::BenchU64FromBytes => bench_u64_from_bytes(&instruction_data[1..]),
         #[cfg(feature = "pinocchio")]
-        InstructionType::ProgramAccountCheck => bench_program_account_check(accounts)?,
+        InstructionType::ProgramAccountCheck => {
+            crate::account_check::bench_program_account_check(accounts)?
+        }
         InstructionType::CpiBench => cpi_bench(accounts, &instruction_data[1..]),
         _ => panic!("Invalid discriminator"),
     }?;

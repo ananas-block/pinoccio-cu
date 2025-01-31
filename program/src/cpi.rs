@@ -13,7 +13,7 @@ use solana_program::{
     instruction::Instruction,
     log::sol_log_compute_units,
     msg,
-    program::{invoke, invoke_signed, invoke_signed_unchecked, invoke_unchecked},
+    program::{invoke, invoke_unchecked},
     pubkey::Pubkey,
 };
 
