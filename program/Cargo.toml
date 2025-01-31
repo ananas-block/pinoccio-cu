@@ -12,7 +12,7 @@ publish = false
 crate-type = ["cdylib", "rlib"]
 
 [features]
-default = ["pinocchio"]
+default = ["solana-program"]
 logging = []
 test-sbf = []
 solana-program = []
